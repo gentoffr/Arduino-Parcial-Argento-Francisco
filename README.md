@@ -1,13 +1,13 @@
 # Arduino-Parcial-Argento-Francisco
+# Integrantes
+Francisco Argento
+Division 1D
 # Descripción.
-La parte 3 tiene añadido un sensor de luz ambiental, que dependiendo de la luz recibida, mostrara los numeros primos por el display al apretar el switch a la izquierda de todo.
-El programa tiene cierta jerarquia cuando a los switches se refiere, digamos que estan todos los switches prendidos, la prioridad seria Luz ambiental > Flexor > Numeros primos > Contador.
-La posicion inicial de los switches es a la izquierda.
-# Actualizacion
-Ahora los botones cuentan con una funcion antirebote.
-Ahora se muestra por serial que accion se esta ejecutando actualmente.
+Este proyecto tiene varias funcionalidades, que son detalladas en el README de cada parte.
+Muestra los estados de ciertos componentes a traves de un dos display de 7 segmentos multiplexados.
+Muestra tambien un contador del 0 al 99, asi como los numeros primos en tal rango.
 # Funciones
-No se añaden nuevas funciones.
+Las funciones estan detalladas en los README, siendo estas "prendeDigito", "printContador", "prendeCosas" y "gestionBotones".
 # Imagen del proyecto
 ![image](https://github.com/gentoffr/Arduino-Parcial-Argento-Francisco/assets/129513207/5653098e-362a-4079-bf00-2d8d97079c63)
 # Link de tinkercad
