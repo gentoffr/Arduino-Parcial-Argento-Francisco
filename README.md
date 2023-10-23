@@ -1,6 +1,7 @@
 # Arduino-Parcial-Argento-Francisco
 # Integrantes
 Francisco Argento
+DNI 44935908
 Division 1D
 # Descripción.
 Este proyecto tiene varias funcionalidades, que son detalladas en el README de cada parte.
