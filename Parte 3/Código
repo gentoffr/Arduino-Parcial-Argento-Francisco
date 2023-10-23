@@ -1,0 +1,346 @@
+#define DECENA A2
+#define UNIDAD A1
+#define A 13
+#define B 10
+#define G 11
+#define F 12
+#define E 9
+#define D 8
+#define C 7
+#define BTN_SUBIR 4
+#define BTN_BAJAR 6
+#define BTN_RESET 5
+#define sliderJeje 2
+#define sliderJiji 3
+#define sliderJojo A5
+#define sensorLuz A0
+#define flex A4
+int pines[] = {A, B, C, D, E, F, G};
+int botones[] = {BTN_SUBIR, BTN_BAJAR, BTN_RESET, sliderJeje, sliderJiji, sliderJojo};
+int botonBajar, botonSubir, botonReset, slider, slider2, slider3, flexor, sensor;
+int contador1 = 0;
+int contador2 = 0;
+int inputAnterior = 0;
+int inputAnterior2 = 0;
+int inputAnterior3 = 0;
+int primos[] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97};
+void setup()
+{ 
+  for(int i=0; i<8; i++)
+  {
+    pinMode(pines[i], OUTPUT);
+  }
+  for(int i=0; i<6; i++)
+  {
+    pinMode(botones[i], INPUT_PULLUP);
+  }
+  pinMode(DECENA, OUTPUT);
+  pinMode(UNIDAD, OUTPUT);  
+  digitalWrite(DECENA, HIGH);
+  digitalWrite(UNIDAD, HIGH);
+  digitalWrite(botones[4], LOW);
+  digitalWrite(botones[5], LOW);
+  digitalWrite(botones[3], LOW);
+  pinMode(flex, INPUT);
+  pinMode(sensorLuz, INPUT);
+  Serial.begin(9600);
+}
+
+void loop()
+{
+  botonSubir = digitalRead(botones[0]);
+  botonBajar = digitalRead(botones[1]);
+  botonReset = digitalRead(botones[2]);
+  slider = digitalRead(botones[3]);
+  slider2 = digitalRead(botones[4]);
+  slider3 = digitalRead(botones[5]);
+  flexor = map(((analogRead(flex) - 990)), 0, 27, 0, 99);
+  sensor = map(((analogRead(sensorLuz))), 0, 471, 0, 24);
+  if (slider3 == HIGH)
+  {
+    printContador(primos[sensor]);
+    Serial.println("Mostrando primos segun el estado del sensor de luz ambiental");
+  }
+  else if (slider2 == HIGH)
+  {
+    printContador(flexor);
+    Serial.println("Mostrando flexor");
+  }
+  else if (slider == HIGH)
+  {
+    contador2 = gestionBotones(slider, botonSubir, botonBajar, botonReset, contador1, contador2);
+    printContador(primos[contador2]);
+    Serial.println("Mostrando numeros primos");
+  }
+  else if (slider == LOW && slider2 == LOW && slider3 == LOW)
+  {
+    contador1 = gestionBotones(slider, botonSubir, botonBajar, botonReset, contador1, contador2);
+    printContador(contador1);
+    Serial.println("Mostrando contador");
+  }
+}
+
+void prendeDigito(int digito)
+{
+  if (digito == UNIDAD)
+  {
+    digitalWrite(UNIDAD, LOW);
+    digitalWrite(DECENA, HIGH);
+    delay(10);
+  }
+  else if (digito == DECENA)
+  {
+    digitalWrite(UNIDAD, HIGH);
+    digitalWrite(DECENA, LOW);
+  	delay(10);
+  }
+  else
+  {
+    digitalWrite(UNIDAD, HIGH);
+    digitalWrite(DECENA, HIGH);
+  	delay(10);
+  }
+}
+
+void printContador(int contador)
+{
+  prendeDigito(0);
+  prendeCosas(contador/10);
+  prendeDigito(DECENA);
+  prendeDigito(0);
+  prendeCosas(contador - 10*((int)contador / 10));
+  prendeDigito(UNIDAD);
+}
+
+void prendeCosas(int contador)
+{
+  int a = pines[0];
+  int b = pines[1];
+  int c = pines[2];
+  int d = pines[3];
+  int e = pines[4];
+  int f = pines[5];
+  int g = pines[6];
+  switch(contador)
+  {
+    case 0:
+  		for(int i=0; i<6; i++)
+        {
+          digitalWrite(pines[i], HIGH);
+        }
+    	digitalWrite(g, LOW);
+        break;
+   	case 1:
+    	digitalWrite(b, HIGH);
+    	digitalWrite(c, HIGH);
+    	digitalWrite(a, LOW);
+    	digitalWrite(d, LOW);
+    	digitalWrite(e, LOW);
+    	digitalWrite(f, LOW);
+    	digitalWrite(g, LOW);
+    	break;
+    case 2:
+    	digitalWrite(a, HIGH);
+    	digitalWrite(b, HIGH);
+    	digitalWrite(g, HIGH);
+    	digitalWrite(e, HIGH);
+    	digitalWrite(d, HIGH);
+    	digitalWrite(f, LOW);
+    	digitalWrite(c, LOW);
+    	break;
+    case 3:
+    	digitalWrite(a, HIGH);
+    	digitalWrite(b, HIGH);
+    	digitalWrite(g, HIGH);
+    	digitalWrite(c, HIGH);
+    	digitalWrite(d, HIGH);
+    	digitalWrite(e, LOW);
+    	digitalWrite(f, LOW);
+    	break;
+    case 4:
+    	digitalWrite(f, HIGH);
+    	digitalWrite(b, HIGH);
+    	digitalWrite(g, HIGH);
+    	digitalWrite(c, HIGH);
+    	digitalWrite(d, LOW);
+    	digitalWrite(e, LOW);
+    	digitalWrite(a, LOW);
+    	break;
+    case 5:
+    	digitalWrite(a, HIGH);
+    	digitalWrite(f, HIGH);
+    	digitalWrite(g, HIGH);
+    	digitalWrite(c, HIGH);
+    	digitalWrite(d, HIGH);
+    	digitalWrite(e, LOW);
+    	digitalWrite(b, LOW);
+    	break;
+    case 6:
+    	digitalWrite(a, HIGH);
+    	digitalWrite(c, HIGH);
+    	digitalWrite(g, HIGH);
+    	digitalWrite(c, HIGH);
+    	digitalWrite(d, HIGH);
+    	digitalWrite(f, HIGH);
+    	digitalWrite(b, LOW);
+    	break;
+    case 7:
+    	digitalWrite(a, HIGH);
+    	digitalWrite(b, HIGH);
+    	digitalWrite(c, HIGH);
+    	digitalWrite(g, LOW);
+    	digitalWrite(d, LOW);
+    	digitalWrite(e, LOW);
+    	digitalWrite(f, LOW);
+    	break;
+    case 8:
+    	digitalWrite(a, HIGH);
+    	digitalWrite(b, HIGH);
+    	digitalWrite(g, HIGH);
+    	digitalWrite(c, HIGH);
+    	digitalWrite(d, HIGH);
+    	digitalWrite(e, HIGH);
+    	digitalWrite(f, HIGH);
+    	break;
+    case 9:
+    	digitalWrite(a, HIGH);
+    	digitalWrite(b, HIGH);
+    	digitalWrite(g, HIGH);
+    	digitalWrite(c, HIGH);
+    	digitalWrite(d, HIGH);
+    	digitalWrite(f, HIGH);
+    	digitalWrite(e, LOW);
+    	break;
+  }
+}
+int gestionBotones(int slider, int boton1, int boton2, int boton3, int contador, int contador2)
+{
+  if (slider == 1)
+  {
+    if (boton1 != inputAnterior)
+    {
+      if (boton1 != 1)
+    	{
+      		contador2++;
+    	}
+      inputAnterior = boton1;
+    }
+    if (boton2 != inputAnterior2)
+    {
+      if (boton2 != 1)
+        {
+          contador2--;
+        }
+      inputAnterior2 = boton2;
+    }
+    if (boton3 != inputAnterior3)
+    {
+      if (boton3 != 1)
+        {
+          contador2 = 0;
+        }
+      inputAnterior3 = boton3;
+    } 
+  }
+  else
+  {
+    if (boton1 != inputAnterior)
+    {
+      if (boton1 != 1)
+    	{
+      		contador++;
+    	}
+      inputAnterior = boton1;
+    }
+    if (boton2 != inputAnterior2)
+    {
+      if (boton2 != 1)
+        {
+          contador--;
+        }
+      inputAnterior2 = boton2;
+    }
+    if (boton3 != inputAnterior3)
+    {
+      if (boton3 != 1)
+        {
+          contador = 0;
+        }
+      inputAnterior3 = boton3;
+    } 
+  }
+  if (contador > 99)
+  {
+    contador = 0;
+  }
+  else if (contador < 0)
+  {
+    contador = 99;
+  }
+  if (contador2 < 0)
+  {
+    contador2 = 24;
+  }
+  else if (contador2 > 24)
+  {
+    contador2 = 0;
+  }
+  if (slider == 1)
+  {
+    return contador2;
+  }
+  else
+  {
+    return contador;
+  }
+}
+
+/* Me explicaron que tinkercad no tiene buen support para la mem
+dinamica asi que voy a listar los numeros primos a mano
+int buscaPrimos()
+{
+  int numero = 100;
+  int acumulador = 0;
+  int lista[] = {};
+  int contador = 0;
+  for(int i=1; i<numero; i++)
+  {
+    if (i == 1)
+    {
+      continue;
+    }
+    for(int j=1; j<i; j++)
+    {
+      if (i % j == 0)
+      {
+        acumulador += 1;
+      }
+      if (acumulador == 3)
+      {
+        break;
+      }
+    }
+    if (acumulador == 2)
+    {
+      lista[contador] = i;
+      contador++;
+    }
+  }
+  return lista;
+}
+
+/*TIENE LA CRUZ C++ NO PODES PASAR ARRAYS A FUNCIONES DIOS ME LIBRE Y ME AMPARE
+
+void gestionPrender(int prenderlos[], int apagarlos[])
+{
+  int prender = sizeof(prenderlos) / sizeof(prenderlos[0]);
+  int apagar = sizeof(apagarlos) / sizeof(apagarlos[0]);
+  for(int i=0; i < prender; i++)
+  {
+    digitalWrite(prenderlos[i], HIGH);
+  }
+  for(int i=0; i < apagar; i++)
+  {
+    digitalWrite(pines[i], LOW);
+  }
+}*/
