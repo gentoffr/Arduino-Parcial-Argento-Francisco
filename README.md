@@ -1,19 +1,14 @@
 # Arduino-Parcial-Argento-Francisco
 # Descripción.
-La segunda parte de este proyecto añade dos slideswitch, asi como un sensor de flexion, el estado inicial de los switches es con el interruptor hacia la izquierda, al presionarse el que se haya a la derecha, el display mostrara los numeros primos, permitiendo mostrar el siguiente o el anterior con los botones, o volver al primer numero primo con el boton del medio.
-El switch que se encuentra arriba permite ver que tan flexionado esta el sensor a traves del display.
-Cabe destacar que el flexor va de 0 a 180, y esta reescalado para que entre en el display de dos cifras, por lo que el numero mostrado seria el porcentaje de flexion actual.
+La parte 3 tiene añadido un sensor de luz ambiental, que dependiendo de la luz recibida, mostrara los numeros primos por el display al apretar el switch a la izquierda de todo.
+El programa tiene cierta jerarquia cuando a los switches se refiere, digamos que estan todos los switches prendidos, la prioridad seria Luz ambiental > Flexor > Numeros primos > Contador.
+La posicion inicial de los switches es a la izquierda.
 # Actualizacion
-Ahora los el contador vuelve al principio si se pasa de 99 o va al final si baja de 0.
+Ahora los botones cuentan con una funcion antirebote.
+Ahora se muestra por serial que accion se esta ejecutando actualmente.
 # Funciones
-No se añaden nuevas funciones, hay una comentada que era la logica para conseguir los numeros primos en cierto rango, pensaba en pasarle un numero a la funcion, y que esta me devolviera un array con todos los numeros primos desde el 0 hasta el numero ingresado por parametro.
-Sin embargo me encontre imposibilitado, pregunte a IAs y todas me pedian que hiciera un <include vector>, cosa que al parecer es imposible en tinkercad, ya que al hacerlo, salta un error que dice "no such file or directory found".
-El problema principal de la funcion es a la hora de añadir nuevos elementos al array, realmente no entendia porque no podia, y entre en el servidor oficial de arduino para preguntar, recibiendo esta respuesta:
-![image](https://github.com/gentoffr/Arduino-Parcial-Argento-Francisco/assets/129513207/c9ae90e7-ae1b-4b54-9f6b-01473b9b0493)
-Traduciendo y resumiendo, se me explico que el soporte para la realocacion de memoria dinamica esta incompleto, por lo que no es buena idea hacer lo que estaba haciendo, al final me conforme con listar los numeros primos a mano.
-Para mas informacion ver:
-https://www.nongnu.org/avr-libc/user-manual/malloc.html
+No se añaden nuevas funciones.
 # Imagen del proyecto
-![image](https://github.com/gentoffr/Arduino-Parcial-Argento-Francisco/assets/129513207/ebbb017a-d2fd-43e4-b5d4-edfdc1398073)
+![image](https://github.com/gentoffr/Arduino-Parcial-Argento-Francisco/assets/129513207/5653098e-362a-4079-bf00-2d8d97079c63)
 # Link de tinkercad
-https://www.tinkercad.com/things/03Zr3Z3FwU0?sharecode=8diWDRRaRJHAUIWKdlo-qORdnILWH7Bx8B-o2oxOYIs
+https://www.tinkercad.com/things/eedBPb2ljCn?sharecode=cTbiDcAkoDoj4IEwZ5wX5d5fs5PdZdVuQwNh5fJt1HM
